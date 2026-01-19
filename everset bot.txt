@@ -1,0 +1,99 @@
+import discord
+from discord.ext import commands
+from discord import app_commands
+
+# --- SETTINGS ---
+TOKEN = 'Ur dc bot token'
+OWNER_ID = owner id 
+
+class EverestBot(commands.Bot):
+    def __init__(self):
+        intents = discord.Intents.default()
+        intents.message_content = True
+        super().__init__(command_prefix="!", intents=intents)
+
+    async def setup_hook(self):
+        await self.tree.sync()
+
+bot = EverestBot()
+
+# --- STAFF APPLICATION SYSTEM ---
+class StaffApplyModal(discord.ui.Modal, title='Everest Node™ Staff Application'):
+    a1 = discord.ui.TextInput(label='Name & Age', placeholder='Aman, 18', required=True)
+    a2 = discord.ui.TextInput(label='Experience', style=discord.TextStyle.paragraph, placeholder='Past hosting experience...', required=True)
+    a3 = discord.ui.TextInput(label='Why Everest Node?', style=discord.TextStyle.paragraph, placeholder='Why are we trustable?', required=True)
+    a4 = discord.ui.TextInput(label='Daily Activity', placeholder='How many hours?', required=True)
+    
+    async def on_submit(self, interaction: discord.Interaction):
+        owner = await bot.fetch_user(OWNER_ID)
+        embed = discord.Embed(title="🚀 New Staff Application", color=discord.Color.blue())
+        embed.set_author(name=interaction.user.name, icon_url=interaction.user.display_avatar.url)
+        embed.add_field(name="User Info", value=f"Tag: {interaction.user}\nID: {interaction.user.id}")
+        embed.add_field(name="Details", value=f"**Name:** {self.a1.value}\n**Exp:** {self.a2.value}\n**Trust:** {self.a3.value}\n**Time:** {self.a4.value}")
+        await owner.send(embed=embed)
+        await interaction.response.send_message("✅ Your application has been sent to the Owner!", ephemeral=True)
+
+# --- COMMAND 1: PAID VPS ---
+@bot.tree.command(name="paid-vps", description="Post Premium OVH Singapore VPS Table")
+async def paid_vps(interaction: discord.Interaction):
+    embed = discord.Embed(title="⚡ Everest Node™ | Premium VPS (NPR)", color=0x3498db)
+    embed.description = "📍 *Powered by OVH Singapore Datacenter*"
+    table = "```md\nPLAN         RAM    CPU     DISK      PRICE\n-------------------------------------------\nStarter      8GB    2 Core  50GB      रु 950\nPerformance  12GB   3 Core  100GB     रु 1400\nUltra Boost  24GB   4 Core  150GB     रु 2400\nPro Max      32GB   6 Core  200GB     रु 3800\nEnterprise   48GB   8 Core  300GB     रु 4600\nTitan        64GB   12 Core 400GB     रु 5100\n-------------------------------------------```"
+    embed.add_field(name="💎 Premium Instances", value=table)
+    embed.set_footer(text="99.9% Uptime SLA • Instant Activation")
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Paid VPS!", ephemeral=True)
+
+# --- COMMAND 2: FREE VPS ---
+@bot.tree.command(name="free-vps", description="Post Free VPS Invite Table")
+async def free_vps_cmd(interaction: discord.Interaction):
+    embed = discord.Embed(title="☁️ Everest Node™ | Free VPS (Invites)", color=0x2ecc71)
+    table = "```ls\nPLAN NAME    INVITES  RAM    CPU    DISK\n------------------------------------------\nEmerald      24       32GB   8 Core 100GB\nDiamond      21       24GB   4 Core 70GB\nGold         18       16GB   4 Core 60GB\nIron         15       12GB   3 Core 50GB\nCopper       12       8GB    2 Core 40GB\nStone        9        6GB    2 Core 30GB\nWood         6        4GB    2 Core 10GB\nDirt         3        2GB    1 Core 5GB\n------------------------------------------```"
+    embed.add_field(name="🍃 Trustable Free Hosting", value=table)
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Free VPS!", ephemeral=True)
+
+# --- COMMAND 3: PAID MC ---
+@bot.tree.command(name="paid-mc", description="Post Premium Minecraft Table")
+async def paid_mc(interaction: discord.Interaction):
+    embed = discord.Embed(title="🎮 Everest Node™ | Premium Minecraft (NPR)", color=0xf1c40f)
+    table = "```md\nPLAN         RAM    CPU     DISK      PRICE\n-------------------------------------------\nCoal         4GB    2 Core  40GB      रु 250\nIron         8GB    3 Core  60GB      रु 450\nGold         12GB   4 Core  80GB      रु 700\nDiamond      16GB   6 Core  120GB     रु 950\nNetherite    32GB   8 Core  200GB     रु 1800\nEVEREST INF  UNLIM  UNLIM   UNLIM     रु 4500\n-------------------------------------------```"
+    embed.add_field(name="👑 Premium Gaming Specs", value=table)
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Paid MC!", ephemeral=True)
+
+# --- COMMAND 4: FREE MC ---
+@bot.tree.command(name="free-mc", description="Post Free Minecraft Invite Table")
+async def free_mc_cmd(interaction: discord.Interaction):
+    embed = discord.Embed(title="🍃 Everest Node™ | Free Minecraft (Invites)", color=0x1abc9c)
+    table = "```ls\nPLAN NAME    INVITES  RAM    CPU    DISK\n------------------------------------------\nPeak         20       16GB   4 Core 50GB\nCloud        15       12GB   3 Core 40GB\nSky          10       8GB    2 Core 30GB\nHill         5        4GB    2 Core 15GB\nBase         0        2GB    1 Core 5GB\n------------------------------------------```"
+    embed.add_field(name="🎮 Free Play Tiers", value=table)
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Free MC!", ephemeral=True)
+
+# --- COMMAND 5: BOOST VPS ---
+@bot.tree.command(name="boost-vps", description="Post VPS Booster Rewards")
+async def boost_vps(interaction: discord.Interaction):
+    embed = discord.Embed(title="💎 Nitro Booster Rewards — everest node™ (VPS)", color=0xff73fa)
+    table = "```md\nTIER        RAM    CPU      DISK\n----------------------------------\n1x Boost    6GB    2 Core   20GB\n2x Boost    12GB   4 Core   40GB\n3x Boost    18GB   6 Core   60GB\n6x Boost    36GB   12 Core  120GB\n----------------------------------```"
+    embed.add_field(name="🚀 VPS Booster Tiers", value=table)
+    embed.add_field(name="ℹ️ Details", value="Ryzen 9 7900 @ 5.42GHz | Full Root | DDoS Protected", inline=False)
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Boost VPS!", ephemeral=True)
+
+# --- COMMAND 6: BOOST MC ---
+@bot.tree.command(name="boost-mc", description="Post Minecraft Booster Rewards")
+async def boost_mc(interaction: discord.Interaction):
+    embed = discord.Embed(title="💎 Nitro Booster Rewards — everest node™ (MC)", color=0xff73fa)
+    table = "```ls\nTIER        RAM    CPU      DISK\n----------------------------------\n1x Boost    8GB    3 Core   40GB\n2x Boost    14GB   5 Core   60GB\n3x Boost    22GB   8 Core   100GB\n6x Boost    48GB   14 Core  200GB\n----------------------------------```"
+    embed.add_field(name="🚀 MC Booster Tiers", value=table)
+    embed.add_field(name="ℹ️ Details", value="Ryzen 9 7950X | 2Tbps+ DDoS Protection | Gen5 NVMe", inline=False)
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message("Posted Boost MC!", ephemeral=True)
+
+# --- APPLY COMMAND ---
+@bot.tree.command(name="apply", description="Apply for Staff")
+async def apply(interaction: discord.Interaction):
+    await interaction.response.send_modal(StaffApplyModal())
+
+bot.run(TOKEN)
